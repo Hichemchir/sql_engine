@@ -15,4 +15,4 @@ add_executable(sql_engine ${SOURCES} ${HEADERS})
 enable_testing()
 
 ## To generate build files w/ CMake: cd build && cmake ..
-## To compile the project: cmake --build .
+## To compile the project & run: cmake --build . && ./sql_engine
