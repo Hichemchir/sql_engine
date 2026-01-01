@@ -13,4 +13,6 @@ file(GLOB_RECURSE HEADERS "include/**/*.h")
 add_executable(sql_engine ${SOURCES} ${HEADERS})
 
 enable_testing()
-add_subdirectory(tests)
+
+## To generate build files w/ CMake: cd build && cmake ..
+## To compile the project: cmake --build .
