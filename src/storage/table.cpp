@@ -1,31 +1,25 @@
-#include <string>
-#include <vector>
-#include <iostream>
 #include "storage/table.hpp"
+#include <iomanip>
 
-class Table {
-public:
-    std::string name;
-    std::vector<std::string> columns;
-    std::vector<std::vector<std::string>> lines;
+// Constructor
+Table::Table(std::string table_name, std::vector<std::string> column_names)
+    : name_(table_name), columns_(column_names) {}
 
-    void add_line(std::vector<std::string> line) {
-        lines.push_back(line);
+void Table::insert_row(std::vector<std::string> row) {
+}
+
+void Table::display() const {
+    std::cout << "Table: " << name_ << std::endl;
+    std::cout << "Cols: ";
+    for (const auto& col : columns_) {
+        std::cout << col << "\t";
     }
-    
-    void display() {
-        std::cout << "Table: " << name << std::endl;
-        std::cout << "Cols: ";
-        for (const auto& col : columns) {
-            std::cout << col << "\t";
+    std::cout << std::endl;
+
+    for (const auto& line: rows_) {
+        for (const auto& value : line) {
+            std::cout << value << "\t";
         }
         std::cout << std::endl;
-
-        for (const auto& line: lines) {
-            for (const auto& value : line) {
-                std::cout << value << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }   
-};
+    }
+}   
