@@ -18,11 +18,16 @@ Table* Catalog::get_table(const std::string& table_name) {
 }
 
 bool Catalog::create_table(const std::string& table_name, const std::vector<std::string>& column_names) {
-    if (table_exists(table_name)) return false;
+    if (table_exists(table_name)) {
+        std::cerr << "Error: table " << table_name << " already exists" << std::endl;
+        return false;
+    }
 
     // Create a unique ptr and move ownership
     auto tbl_ptr = std::make_unique<Table>(table_name, column_names);
     tables_[table_name] = std::move(tbl_ptr);
+
+    std::cout << "Table " << table_name << " created successfully" << std::endl;
     return true;
 }
 
@@ -43,11 +48,16 @@ std::vector<std::string> Catalog::list_tables() const {
 }
 
 void Catalog::display_catalog() const {
-    std::cout << "\nCatalog:" << std::endl;
+    std::cout << "\nDATABASE CATALOG:" << std::endl;
     std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━" << std::endl;
-    std::vector<std::string> ls_tbl = list_tables();
 
-    for (const auto& tbl : ls_tbl) {
-        std::cout << "Table name: " << tbl << std::endl;
+    if (tables_.empty()) {
+        std::cout << " (no tables)" << std::endl;
+        return;
+    }
+
+    std::cout << "Tables (" << tables_.size() << "):" << std::endl;
+    for (const auto& [name, table] : tables_) {
+        std::cout << "Table name: " << name << std::endl;
     }
 }
