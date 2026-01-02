@@ -28,8 +28,8 @@ public:
 
     std::vector<std::string> list_tables() const;
     void display_catalog() const;
-    
+
     // Getter
     Table* get_table(const std::string& table_name);
     size_t table_count() const { return tables_.size(); }
-}
+};
