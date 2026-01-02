@@ -17,7 +17,7 @@ void Table::insert_row(std::vector<std::string> row) {
 }
 
 void Table::display() const {
-    std::cout << "\n Table: " << name_ << std::endl;
+    std::cout << "\nTable: " << name_ << std::endl;
     std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━" << std::endl; 
 
     for (const auto& col : columns_) {
