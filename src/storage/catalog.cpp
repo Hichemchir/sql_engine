@@ -6,6 +6,8 @@
 #include "storage/table.hpp"
 #include "storage/catalog.hpp"
 
+namespace sqlengine {
+
 bool Catalog::table_exists(const std::string& table_name) const {
     if (tables_.find(table_name) != tables_.end()) return true;
     return false;
@@ -17,14 +19,14 @@ Table* Catalog::get_table(const std::string& table_name) {
     return tbl_ptr;
 }
 
-bool Catalog::create_table(const std::string& table_name, const std::vector<std::string>& column_names) {
+bool Catalog::create_table(const std::string& table_name, const std::vector<ColumnSchema& schema) {
     if (table_exists(table_name)) {
         std::cerr << "Error: table " << table_name << " already exists" << std::endl;
         return false;
     }
 
     // Create a unique ptr and move ownership
-    auto tbl_ptr = std::make_unique<Table>(table_name, column_names);
+    auto tbl_ptr = std::make_unique<Table>(table_name, schema);
     tables_[table_name] = std::move(tbl_ptr);
 
     std::cout << "Table " << table_name << " created successfully" << std::endl;
@@ -61,3 +63,5 @@ void Catalog::display_catalog() const {
         std::cout << "Table name: " << name << std::endl;
     }
 }
+
+} // namespace sqlengine
