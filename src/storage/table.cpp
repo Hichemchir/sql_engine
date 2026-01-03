@@ -1,19 +1,24 @@
 #include "storage/table.hpp"
 #include <iomanip>
+#include "storage/column_schema.hpp"
+#include "common/types.hpp"
+
+namespace sqlengine { 
 
 // Constructor
-Table::Table(std::string table_name, std::vector<std::string> column_names)
-    : name_(table_name), columns_(column_names) {}
+Table::Table(std::string table_name, std::vector<ColumnSchema schema)
+    : name_(std::move(table_name)), schema_(std::move(schema)) {}
 
-void Table::insert_row(std::vector<std::string> row) {
+bool Table::insert_row(std::vector<Value> row) {
     // Check if right number of col:
     if (row.size() != columns_.size()) {
         std::cerr << "Error: row has " << row.size()
                   << " values but table has " << columns_.size()
                   << " columns" << std::endl;
-        return;
+        return false;
     }
     rows_.push_back(row);
+    return true;
 }
 
 void Table::display() const {
@@ -35,4 +40,6 @@ void Table::display() const {
     }
 
     std::cout << "\nTotal rows: " << rows_.size() << std::endl;
-}   
+}
+
+}

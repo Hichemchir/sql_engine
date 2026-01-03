@@ -22,7 +22,7 @@ public:
     // Constructor
     Table(std::string table_name, std::vector<ColumnSchema> schema);
 
-    void insert_row(std::vector<Value> row);
+    bool insert_row(std::vector<Value> row);
 
     void display() const;  
 
