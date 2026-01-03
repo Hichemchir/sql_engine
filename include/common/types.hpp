@@ -79,6 +79,42 @@ public:
     // getters
     DataType type() const { return type_; }
     bool is_null() const { return type_ == DataType::NULL_TYPE; }
+    
+    int64_t as_integer() const {
+        return std::get<int64_t>(data_);
+    }
+    double as_real() const {
+        return std::get<double>(data_);
+    }
+    const std::string& as_text() const {
+        return std::get<std::string>(data_);
+    }
+    bool as_boolean() const {
+        return std::get<bool>(data_);
+    }
+
+    // convert value to string for display
+    std::string to_string() const {
+        if (is_null()) {
+            return "NULL";
+        }
+        switch (type_) {
+            case DataType::INTEGER:
+                return std::to_string(as_integer());
+            case DataType::REAL: {
+                char buf[64];
+                snprintf(buf, sizeof(buf), "%.2f", as_real());
+                return std::string(buf);
+            }
+            case DataType::TEXT:
+                return as_text();
+            case DataType::BOOLEAN:
+                return as_boolean() ? true : false;
+            default=
+                return "NULL";
+        }
+    }
+    
 };
 
 }
