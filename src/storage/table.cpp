@@ -18,7 +18,7 @@ bool Table::insert_row(std::vector<Value> row) {
         return false;
     }
     // Validate each column's type and constraints:
-    for (size_t i; i < row.size(); ++i) {
+    for (size_t i = 0; i < row.size(); ++i) {
         const auto& value = row[i];
         const auto& col_schema = schema_[i];
 
@@ -30,7 +30,7 @@ bool Table::insert_row(std::vector<Value> row) {
 
         // check type match between Col schema and row
         if (!value.is_null() && value.type() != col_schema.type) {
-            std::cerr << "Error: column " << col_schema.name << "expects " 
+            std::cerr << "Error: column " << col_schema.name << " expects " 
                       << data_type_to_string(col_schema.type) << " but got " 
                       << data_type_to_string(value.type()) << std::endl;
             return false;

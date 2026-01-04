@@ -109,8 +109,8 @@ public:
             case DataType::TEXT:
                 return as_text();
             case DataType::BOOLEAN:
-                return as_boolean() ? true : false;
-            default=
+                return as_boolean() ? "true" : "false";
+            default:
                 return "NULL";
         }
     }

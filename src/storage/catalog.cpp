@@ -19,7 +19,7 @@ Table* Catalog::get_table(const std::string& table_name) {
     return tbl_ptr;
 }
 
-bool Catalog::create_table(const std::string& table_name, const std::vector<ColumnSchema& schema) {
+bool Catalog::create_table(const std::string& table_name, const std::vector<ColumnSchema>& schema) {
     if (table_exists(table_name)) {
         std::cerr << "Error: table " << table_name << " already exists" << std::endl;
         return false;

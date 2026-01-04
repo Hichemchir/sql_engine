@@ -8,7 +8,7 @@
 using namespace sqlengine;
 
 int main() {
-    std::cout << "Minimal SQL engine with typed values\n" << std::endl;
+    std::cout << "SQL engine with typed values\n" << std::endl;
     
     // Test 1
     // Table users("users", {"name", "age"});
@@ -41,7 +41,7 @@ int main() {
             {Value::make_integer(1),
              Value::make_text("Hichem"),
              Value::make_integer(27),
-             Value::make_integer(100)
+             Value::make_real(100.0)
             }
         );
         users->insert_row({
