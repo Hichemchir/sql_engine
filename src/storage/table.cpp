@@ -41,6 +41,35 @@ bool Table::insert_row(std::vector<Value> row) {
     return true;
 }
 
+// Query Operations
+
+const std::vector<std::vector<Value>>& Table::select_all() const {
+    return rows_;
+}
+
+std::vector<std::vector<Value>> Table::filter(
+    std::function<bool(const std::vector<Value>&)> predicate) const {
+        std::vector<std::vector<Value>> results;
+        
+        for (const auto& row : rows_) {
+            if (predicate(row)) {
+                results.push_back(row);
+            }
+        }
+        return results;
+    }
+
+std::vector<std::vector<Value>> Table::filter_column(
+    const std::string& column_name,
+    std::function<bool(const Value&)> predicate) const {
+        std::vector<std::vector<Value>> results;
+
+        
+    }
+
+
+// Display functions
+
 void Table::display() const {
     // Fixed col width
     const int col_width = 20;
