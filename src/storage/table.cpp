@@ -64,8 +64,21 @@ std::vector<std::vector<Value>> Table::filter_column(
     std::function<bool(const Value&)> predicate) const {
         std::vector<std::vector<Value>> results;
 
-        
+        for (const auto& row : rows_) {
+
+        }
+
     }
+
+std::optional<size_t> Table::find_column_index(const std::string& column_name) const {
+    
+    for (size_t i = 0; i < schema_.size(); ++i) {
+        if (schema_[i].name == column_name) {
+            return i;
+        }
+    }
+    return std::nullopt;
+}
 
 
 // Display functions
