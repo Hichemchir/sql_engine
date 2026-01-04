@@ -34,7 +34,8 @@ int main() {
             ColumnSchema("salary", DataType::REAL, true)
         });
     catalog.display_catalog();
-    std::cout << "\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n" << std::endl;
+    std::cout << std::endl;
+    
     Table* users = catalog.get_table("users");
     if (users) {
         users->insert_row(

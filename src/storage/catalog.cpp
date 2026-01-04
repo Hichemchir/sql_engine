@@ -29,7 +29,7 @@ bool Catalog::create_table(const std::string& table_name, const std::vector<Colu
     auto tbl_ptr = std::make_unique<Table>(table_name, schema);
     tables_[table_name] = std::move(tbl_ptr);
 
-    std::cout << "Table " << table_name << " created successfully" << std::endl;
+    std::cout << "Table '" << table_name << "' created successfully" << std::endl;
     return true;
 }
 
@@ -51,7 +51,7 @@ std::vector<std::string> Catalog::list_tables() const {
 
 void Catalog::display_catalog() const {
     std::cout << "\nDATABASE CATALOG:" << std::endl;
-    std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━" << std::endl;
+    std::cout << std::string(50, '-') << std::endl;
 
     if (tables_.empty()) {
         std::cout << " (no tables)" << std::endl;
@@ -60,8 +60,13 @@ void Catalog::display_catalog() const {
 
     std::cout << "Tables (" << tables_.size() << "):" << std::endl;
     for (const auto& [name, table] : tables_) {
-        std::cout << "Table name: " << name << std::endl;
+        std::cout << "Table name: " << name 
+                  << " (" << table->column_count() << " columns, "
+                  << table->row_count() << " rows)"
+                  << std::endl;
     }
+
+    std::cout << std::string(50, '-') << std::endl;
 }
 
 } // namespace sqlengine

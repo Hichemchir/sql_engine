@@ -48,7 +48,7 @@ void Table::display() const {
     std::cout << "\nTable: " << name_ << std::endl;
 
     // Calculate separator
-    int total_width = (col_width * 3) * schema_.size() - 1;
+    int total_width = (col_width + 3) * schema_.size() - 3;
     std::string separator(total_width, '-');
 
     std::cout << separator << std::endl;
