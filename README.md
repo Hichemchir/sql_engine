@@ -17,3 +17,8 @@ Out: list of filtered names
 - Planner: decide how to retrieve data (scan, filter, project, etc)
 - Executor: do the work
 - Optimizer
+
+
+# To add next:
+- aggregations (count, sum, avg, min, max)
+- Start SQL Parser (to write real SQL)
