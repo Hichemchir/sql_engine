@@ -42,25 +42,34 @@ bool Table::insert_row(std::vector<Value> row) {
 }
 
 void Table::display() const {
+    // Fixed col width
+    const int col_width = 20;
+
     std::cout << "\nTable: " << name_ << std::endl;
-    std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━" << std::endl; 
+
+    // Calculate separator
+    int total_width = (col_width * 3) * schema_.size() - 1;
+    std::string separator(total_width, '-');
+
+    std::cout << separator << std::endl;
 
     for (const auto& col : schema_) {
         std::string header = col.name + " (" + data_type_to_string(col.type) + ")";
-        std::cout << std::setw(20) << header << " | ";
+        std::cout << std::setw(col_width) << header << " | ";
     }
     std::cout << std::endl;
-    std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━" << std::endl;
+    std::cout << separator << std::endl;
 
     // display data rows
     for (const auto& row: rows_) {
         for (const auto& value : row) {
-            std::cout << std::setw(15) << value.to_string() << " | ";
+            std::cout << std::setw(col_width) << value.to_string() << " | ";
         }
         std::cout << std::endl;
     }
 
+    std::cout << separator << std::endl;
     std::cout << "\nTotal rows: " << rows_.size() << std::endl;
 }
 
-}
+} // namespace sqlengine
