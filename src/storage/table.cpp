@@ -108,7 +108,7 @@ std::vector<std::vector<Value>> Table::select_columns(
         return results;
     }
 
-std::optional<std::vector<Value>> get_row(size_t index) const {
+std::optional<std::vector<Value>> Table::get_row(size_t index) const {
     
     if (index >= rows_.size()) {
         std::cerr << "Error: " << index << " is larger than the size of the table" << std::endl;
@@ -143,6 +143,7 @@ void Table::display() const {
 
     std::cout << separator << std::endl;
 
+    // display column header
     for (const auto& col : schema_) {
         std::string header = col.name + " (" + data_type_to_string(col.type) + ")";
         std::cout << std::setw(col_width) << header << " | ";
@@ -162,11 +163,35 @@ void Table::display() const {
     std::cout << "\nTotal rows: " << rows_.size() << std::endl;
 }
 
-void display_results(
+void Table::display_results(
     const std::vector<std::vector<Value>>& results,
-    const std::vector<std::string>& column_names
-) {
-    return {};
+    const std::vector<std::string>& column_names) {
+    
+    const int col_width = 20;
+
+    std::cout << "\nQuery results:" << std::endl;
+    int separator_width = (col_width + 3) * column_names.size() - 3;
+    std::string separator(separator_width, '-');
+
+    std::cout << separator << std::endl;
+    
+    // display column header
+    for (const auto& col : column_names) {
+        std::cout << std::setw(col_width) << col << " | ";
+    }
+    std::cout << std::endl;
+    std::cout << separator << std::endl;
+
+    // display data row
+    for (const auto& row : results) {
+        for (const auto& value : row) {
+            std::cout << std::setw(col_width) << value.to_string() << " | ";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << separator << std::endl;
+    std::cout << "Total rows: " << results.size() << std::endl;
 }
 
 } // namespace sqlengine
