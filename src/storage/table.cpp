@@ -62,11 +62,17 @@ std::vector<std::vector<Value>> Table::filter(
 std::vector<std::vector<Value>> Table::filter_column(
     const std::string& column_name,
     std::function<bool(const Value&)> predicate) const {
-        std::vector<std::vector<Value>> results;
+        std::vector<Value> results;
 
         for (const auto& row : rows_) {
-
+            for (size_t i = 0; i < row.size(); ++i) {
+                if (predicate(row)) {
+                    results.push_back(row[i]);
+                }
+            }
+            
         }
+        return results;
 
     }
 
