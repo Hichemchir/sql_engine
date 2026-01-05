@@ -79,6 +79,33 @@ std::vector<std::vector<Value>> Table::filter_column(
         return results;
 }
 
+std::vector<std::vector<Value>> Table::select_columns(
+    const std::vector<std::string>& column_names) const {
+        std::vector<std::vector<Value>> results;
+
+        // find column index
+        std::vector<size_t> col_indexes;
+        
+        for (const auto& col_name : column_names) {
+            auto col_index = find_column_index(col_name);
+            if (!col_index.has_value()) {
+                std::cerr << "Error: column '" << col_name << "' not found" << std::endl;
+            }
+            else col_indexes.push_back(col_index);
+        }
+
+        // Fill the output table
+        for (const auto& col_index : col_indexes) {
+            for (const auto& row : rows_) {
+                if (predicate(row[col_index.value()])) {
+                    result.push_back(row[col_index.value()]);
+                }
+            }
+        }
+        return results;
+    }
+
+
 
 std::optional<size_t> Table::find_column_index(const std::string& column_name) const {
     
