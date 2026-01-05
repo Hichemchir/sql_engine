@@ -62,19 +62,23 @@ std::vector<std::vector<Value>> Table::filter(
 std::vector<std::vector<Value>> Table::filter_column(
     const std::string& column_name,
     std::function<bool(const Value&)> predicate) const {
-        std::vector<Value> results;
+        std::vector<std::vector<Value>> results;
+
+        // find index
+        auto col_index = find_column_index(column_name);
+        if (!col_index.has_value()) {
+            std::cerr << "Error: column '" << column_name << "' not found" << std::endl;
+            return results;
+        }
 
         for (const auto& row : rows_) {
-            for (size_t i = 0; i < row.size(); ++i) {
-                if (predicate(row)) {
-                    results.push_back(row[i]);
-                }
+            if (predicate(row[col_index.value()])) {
+                results.push_back(row);
             }
-            
         }
         return results;
+}
 
-    }
 
 std::optional<size_t> Table::find_column_index(const std::string& column_name) const {
     
