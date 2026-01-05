@@ -108,6 +108,15 @@ std::vector<std::vector<Value>> Table::select_columns(
         return results;
     }
 
+std::optional<std::vector<Value>> get_row(size_t index) const {
+    
+    if (index >= rows_.size()) {
+        std::cerr << "Error: " << index << " is larger than the size of the table" << std::endl;
+        return std::nullopt;
+    }
+
+    return rows_[index];
+}
 
 std::optional<size_t> Table::find_column_index(const std::string& column_name) const {
     
@@ -151,6 +160,13 @@ void Table::display() const {
 
     std::cout << separator << std::endl;
     std::cout << "\nTotal rows: " << rows_.size() << std::endl;
+}
+
+void display_results(
+    const std::vector<std::vector<Value>>& results,
+    const std::vector<std::string>& column_names
+) {
+    return {};
 }
 
 } // namespace sqlengine
