@@ -90,21 +90,23 @@ std::vector<std::vector<Value>> Table::select_columns(
             auto col_index = find_column_index(col_name);
             if (!col_index.has_value()) {
                 std::cerr << "Error: column '" << col_name << "' not found" << std::endl;
+                return {};
             }
-            else col_indexes.push_back(col_index);
+            else col_indexes.push_back(col_index.value());
         }
 
         // Fill the output table
-        for (const auto& col_index : col_indexes) {
-            for (const auto& row : rows_) {
-                if (predicate(row[col_index.value()])) {
-                    result.push_back(row[col_index.value()]);
-                }
+        for (const auto& row : rows_) {
+            std::vector<Value> projected_row;
+
+            for (const auto& col_index : col_indexes) {
+                projected_row.push_back(row[col_index]);
             }
+
+            results.push_back(projected_row);
         }
         return results;
     }
-
 
 
 std::optional<size_t> Table::find_column_index(const std::string& column_name) const {
