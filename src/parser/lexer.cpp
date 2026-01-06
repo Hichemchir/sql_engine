@@ -17,7 +17,7 @@ char Lexer::peek() const {
 }
 
 void Lexer::skip_whitespace() {
-    while (current_char_ == ' ') {
+    while (!is_at_end() && current_char_ == ' ') {
         advance();
     }
 }
