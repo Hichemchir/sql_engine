@@ -45,14 +45,16 @@ private:
 
     // Read keywords
     Token read_identifier();
+    // Read a number / Float
     Token read_number();
-    Token read_string();    // text in quotes --> "name"
+    // text in quotes --> "name"
+    Token read_string();    
 
     Token get_next_token();
 
     // check if a string is a SQL keyword
     bool is_keyword(const std::string& word) const;     
-
+    // Convert keyword string to TokenType
     TokenType keyword_to_token_type(const std::string& keyword) const;
  
 };
