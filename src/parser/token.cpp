@@ -46,4 +46,19 @@ std::string Token::type_to_string() const {
     }
 }
 
+static const std::unordered_map<std::string, TokenType> KEYWORD = {
+        {"SELECT", TokenType::SELECT},
+        {"FROM", TokenType::FROM},
+        {"WHERE", TokenType::WHERE},
+        {"INSERT", TokenType::INSERT},
+        {"INTO", TokenType::INTO},
+        {"VALUES", TokenType::VALUES},
+        {"CREATE", TokenType::CREATE},
+        {"TABLE", TokenType::TABLE},
+        {"DROP", TokenType::DROP},
+        {"AND", TokenType::AND},
+        {"OR", TokenType::OR},
+        {"NOT", TokenType::NOT}
+    };
+
 } // namespace sqlengine

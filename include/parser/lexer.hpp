@@ -50,7 +50,8 @@ private:
 
     Token get_next_token();
 
-    bool is_keyword(const std::string& word) const;     // check if a string is a SQL keyword
+    // check if a string is a SQL keyword
+    bool is_keyword(const std::string& word) const;     
 
     TokenType keyword_to_token_type(const std::string& keyword) const;
  

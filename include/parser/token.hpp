@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <unordered_map>
 
 namespace sqlengine {
 
@@ -60,6 +61,9 @@ struct Token {
     
     // helper method to convert to string
     std::string type_to_string() const;
+
+    // Static keyword MAP for lexer
+    static const std::unordered_map<std::string, TokenType>& KEYWORD;
 };
 
 } // namespace sqlengine
