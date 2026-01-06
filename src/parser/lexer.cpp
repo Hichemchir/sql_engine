@@ -10,7 +10,10 @@ void Lexer::advance() {
 }
 
 char Lexer::peek() const {
-    return input_[static_cast<int>(position_) + 1];
+    if ((position_ + 1) < input_.length()) {
+        return input_[position_+ 1];
+    }
+    return '/0'; 
 }
 
 void Lexer::skip_whitespace() {
@@ -21,6 +24,12 @@ void Lexer::skip_whitespace() {
 
 bool Lexer::is_at_end() const {
     return (position_ >= input_.length());
+}
+
+// starts with a letter or a number
+Token Lexer::read_identifier() {
+    while (std::isalnum(current_char_))
+
 }
 
 } // namespace sqlengine

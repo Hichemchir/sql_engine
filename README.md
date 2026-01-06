@@ -22,3 +22,12 @@ Out: list of filtered names
 # To add next:
 - aggregations (count, sum, avg, min, max)
 - Start SQL Parser (to write real SQL)
+- Join, group by, order by, limit
+- columnar storage
+- vectorized execution (SIMD)
+- Benchmarks against SQLite / DuckDB
+- CI/CD, docs, ..
+
+
+# UML class diagram:
+![alt text](image.png)
