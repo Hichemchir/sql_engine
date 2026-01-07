@@ -50,41 +50,46 @@ Token Lexer::read_identifier() {
 
 Token Lexer::read_number() {
     std::string word;
-    while (std::isdigit(current_char_) | current_char_ == '.') {
+    while (!is_at_end() && (std::isdigit(current_char_) || current_char_ == '.')) {
         word += current_char_;
         advance();
     }
-    if (is_keyword(word)) return Token(TokenType::NUMBER, word);
-    return Token(TokenType::UNKNOWN, word);
+    if (!word.empty()) return Token(TokenType::NUMBER, word);
+    return Token(TokenType::NUMBER, word);
 }
 
 Token Lexer::read_string() {
     std::string word;
     // pass the first '
     advance();
-    while (std::isalpha(current_char_) && !is_at_end) {
+
+    while (!is_at_end() || current_char_ == '\'') {
         word += current_char_;
         advance();
     }
     if (is_at_end()) return Token(TokenType::UNKNOWN, word);
+
     // skip the last '
     advance();
     return Token(TokenType::STRING, word);
 }
 
 bool Lexer::is_keyword(const std::string& word) const {
-    auto it = KEYWORD.find(word);
-    if (it != KEYWORD.end()) {
-        return true;
-    }
-    return false;
+    // convert string to UPPER
+    [](auto word) { return std::toupper(word)};
+
+    const auto& keywords = Token::get_keywords();
+    auto it = keywords.find(word);
+    return it != keywords.end();
 }
 
 TokenType Lexer::keyword_to_token_type(const std::string& keyword) const {
-    // auto it = KEYWORD.find(word);
-    // if (it != KEYWORD.end()) return KEYWORD[keyword];
-    // return TokenType::UNKNOWN;
-    return is_keyword() ? KEYWORD[keyword] : TokenType::UNKNOWN;
+    const auto& keywords = Token::get_keywords();
+    auto it = keywords.find(keyword);
+    
+    if (it != keywords.end()) return keywords[keyword];
+    return TokenType::UNKNOWN;
+    return is_keyword(keyword) ? keywords[keyword] : TokenType::UNKNOWN;
 }
 
 } // namespace sqlengine
