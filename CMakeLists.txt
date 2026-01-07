@@ -1,3 +1,6 @@
+## To generate build files w/ CMake: cd build && cmake ..
+## To compile the project & run: cmake --build . && ./sql_engine
+
 cmake_minimum_required(VERSION 3.10)
 
 project(minimal_sql_engine)
@@ -14,5 +17,3 @@ add_executable(sql_engine ${SOURCES} ${HEADERS})
 
 enable_testing()
 
-## To generate build files w/ CMake: cd build && cmake ..
-## To compile the project & run: cmake --build . && ./sql_engine
