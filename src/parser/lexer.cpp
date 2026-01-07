@@ -14,7 +14,7 @@ void Lexer::advance() {
         current_char_ = input_[position_];
     }
     // Else, we are at the end
-    current_char_ = '\0';
+    else current_char_ = '\0';
 }
 
 char Lexer::peek() const {
@@ -54,7 +54,6 @@ Token Lexer::read_number() {
         word += current_char_;
         advance();
     }
-    if (!word.empty()) return Token(TokenType::NUMBER, word);
     return Token(TokenType::NUMBER, word);
 }
 
@@ -63,7 +62,7 @@ Token Lexer::read_string() {
     // pass the first '
     advance();
 
-    while (!is_at_end() || current_char_ == '\'') {
+    while (!is_at_end() && current_char_ != '\'') {
         word += current_char_;
         advance();
     }
@@ -76,20 +75,23 @@ Token Lexer::read_string() {
 
 bool Lexer::is_keyword(const std::string& word) const {
     // convert string to UPPER
-    [](auto word) { return std::toupper(word)};
+    std::string upper = word;
+    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
 
     const auto& keywords = Token::get_keywords();
-    auto it = keywords.find(word);
+    auto it = keywords.find(upper);
     return it != keywords.end();
 }
 
 TokenType Lexer::keyword_to_token_type(const std::string& keyword) const {
-    const auto& keywords = Token::get_keywords();
-    auto it = keywords.find(keyword);
+    std::string upper = keyword;
+    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
 
-    if (it != keywords.end()) return keywords[keyword];
+    const auto& keywords = Token::get_keywords();
+    auto it = keywords.find(upper);
+
+    if (it != keywords.end()) return it->second;
     return TokenType::UNKNOWN;
-    return is_keyword(keyword) ? keywords[keyword] : TokenType::UNKNOWN;
 }
 
 // Ex: SELECT * FROM users --> we are at ' ' after 'T'
@@ -99,8 +101,60 @@ Token Lexer::get_next_token() {
     
     if (std::isalpha(current_char_) || current_char_ == '_') return read_identifier();
     if (std::isdigit(current_char_)) return read_number();
-    if (current_char_ == '*') return Token(TokenType::ASTERISK, "*");
-    if ()
+    if (current_char_ == '\'') return read_string();
+
+    char c = current_char_;
+    advance();
+    char next_char = '\0';
+
+    switch (c) {
+        case '*': return Token(TokenType::ASTERISK, "*");
+        case ',': return Token(TokenType::COMMA, ",");
+        case ';': return Token(TokenType::SEMICOLON, ";");
+        case '(': return Token(TokenType::LEFT_PAREN, "(");
+        case ')': return Token(TokenType::RIGHT_PAREN, ")");
+        case '=': return Token(TokenType::EQUAL, "=");
+        case '>':
+            next_char = peek();
+            if (!is_at_end() && next_char == '=') {
+                advance();
+                return Token(TokenType::GREATER_EQUAL, ">=");
+            }
+            return Token(TokenType::GREATER_THAN, ">");
+        
+        case '<':
+            next_char = peek();
+            if (!is_at_end() && next_char == '=') {
+                advance();
+                return Token(TokenType::LESS_EQUAL, "<=");
+            }
+            return Token(TokenType::LESS_THAN, "<");
+        
+        case '!':
+            next_char = peek();
+            if (!is_at_end() && next_char == '=') {
+                advance();
+                return Token(TokenType::NOT_EQUAL, "!=");
+            }
+            return Token(TokenType::UNKNOWN, "!");
+
+        default:
+            return Token(TokenType::UNKNOWN, std::string(1, c));
+        }
+    }
+
+// SELECT * FROM users --> return [SELECT, *, FROM, Identifier(USERS), EOF]
+std::vector<Token> Lexer::tokenize() {
+    std::vector<Token> results;
+
+    while (true) {
+        Token token = get_next_token();
+        results.push_back(token);
+        if (token.type == TokenType::END_OF_FILE) break;
+    }
+
+    return results;
+
 }
 
 } // namespace sqlengine

@@ -62,8 +62,8 @@ struct Token {
     // helper method to convert to string
     std::string type_to_string() const;
 
-    // Static keyword MAP for lexer
-    const std::unordered_map<std::string, TokenType>& get_keywords();
+    // Static keyword MAP for lexer (no need to create an instance of Token to retrieve keywords)
+    static const std::unordered_map<std::string, TokenType>& get_keywords();
 };
 
 } // namespace sqlengine

@@ -46,8 +46,8 @@ std::string Token::type_to_string() const {
     }
 }
 
-const std::unordered_map<std::string, TokenType>& get_keywords() {
-    const std::unordered_map<std::string, TokenType> keywords = {
+const std::unordered_map<std::string, TokenType>& Token::get_keywords() {
+    static const std::unordered_map<std::string, TokenType> keywords = {
             {"SELECT", TokenType::SELECT},
             {"FROM", TokenType::FROM},
             {"WHERE", TokenType::WHERE},
