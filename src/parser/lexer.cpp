@@ -86,10 +86,21 @@ bool Lexer::is_keyword(const std::string& word) const {
 TokenType Lexer::keyword_to_token_type(const std::string& keyword) const {
     const auto& keywords = Token::get_keywords();
     auto it = keywords.find(keyword);
-    
+
     if (it != keywords.end()) return keywords[keyword];
     return TokenType::UNKNOWN;
     return is_keyword(keyword) ? keywords[keyword] : TokenType::UNKNOWN;
+}
+
+// Ex: SELECT * FROM users --> we are at ' ' after 'T'
+Token Lexer::get_next_token() {
+    skip_whitespace();
+    if (is_at_end()) return Token(TokenType::END_OF_FILE, "");
+    
+    if (std::isalpha(current_char_) || current_char_ == '_') return read_identifier();
+    if (std::isdigit(current_char_)) return read_number();
+    if (current_char_ == '*') return Token(TokenType::ASTERISK, "*");
+    if ()
 }
 
 } // namespace sqlengine
