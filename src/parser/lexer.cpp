@@ -13,17 +13,20 @@ void Lexer::advance() {
     if (position_ < input_.length()) {
         current_char_ = input_[position_];
     }
+    // Else, we are at the end
+    current_char_ = '\0';
 }
 
 char Lexer::peek() const {
     if ((position_ + 1) < input_.length()) {
-        return input_[position_+ 1];
+        return input_[position_ + 1];
     }
     return '\0'; 
 }
 
 void Lexer::skip_whitespace() {
-    while (!is_at_end() && current_char_ == ' ') {
+    // Need to detect ' ' but also \n, \t,
+    while (!is_at_end() && std::isspace(current_char_)) {
         advance();
     }
 }
@@ -32,17 +35,17 @@ bool Lexer::is_at_end() const {
     return (position_ >= input_.length());
 }
 
-// starts with a letter or a number
+// starts with a letter or a number, "my_table" should work -> include '_'
 Token Lexer::read_identifier() {
     std::string word;
-    while (std::isalnum(current_char_)) {
+    while (!is_at_end()  && (std::isalnum(current_char_) || current_char_ == '_')) {
         word += current_char_;
         advance();
     }
     if (is_keyword(word)) {
         return Token(keyword_to_token_type(word), word);
     }
-    return Token(TokenType::UNKNOWN, word);
+    return Token(TokenType::IDENTIFIER, word);
 }
 
 Token Lexer::read_number() {

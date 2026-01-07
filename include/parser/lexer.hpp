@@ -49,7 +49,7 @@ private:
     Token read_number();
     // text in quotes --> "name"
     Token read_string();    
-
+    // Get next single token
     Token get_next_token();
 
     // check if a string is a SQL keyword
