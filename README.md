@@ -31,3 +31,7 @@ Out: list of filtered names
 
 # UML class diagram:
 ![alt text](image.png)
+
+
+# AST: abstract syntax tree
+- structured representation of the SQL query as a tree --> what to store ?
