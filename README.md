@@ -165,7 +165,7 @@ This project demonstrates:
 - [ ] Error handling and recovery
 - [ ] Transaction support (ACID)
 
-## 📊 Performance Goals
+## Performance Goals
 
 Target performance metrics (future):
 - 1M+ rows/sec simple scans
@@ -176,7 +176,7 @@ Target performance metrics (future):
 
 MIT License - See LICENSE file for details
 
-## 🔗 Resources
+## Resources
 
 - [SQLite Architecture](https://www.sqlite.org/arch.html)
 - [DuckDB Paper](https://mytherin.github.io/papers/2019-duckdbdemo.pdf)
@@ -184,4 +184,4 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Status**: 🚧 Active Development
+**Status**: Active Development
